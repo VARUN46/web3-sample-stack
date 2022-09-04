@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<head>
+<title>Smart Contract Sample</title>
+</head>
+<body>
+    
+    <div>
+        <input type="number" id="setValue"/>
+        <button id="setValueSubmit">Submit</button>
+      </div>
+      <div id="response"></div>
+
+      <script src="node_modules/web3/dist/web3.min.js"></script>
+      <script>
+        const web3 = new Web3('http://localhost:8545'); // Replace value with public blockchain url if required
+        const contractAbi = [
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "num",
+                    "type": "uint256"
+                }
+            ],
+            "name": "store",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "retrieve",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        }
+    ];
+        const contractAddress = '<replace-with-contracts-address>';
+        const storageSmartContract = new web3.eth.Contract(contractAbi,contractAddress);
+        storageSmartContract.methods.retrieve().call(function(err,response){
+            if(err){
+                console.log(err)
+                return;
+            }else{
+                document.getElementById('response').innerHTML = `Value in smart contract is ${response}`;
+            }
+        });
+
+        function sendDataToContract(val,senderAddress){
+            storageSmartContract.methods.store(val).send({from:senderAddress},function(err,response){
+                if(err){
+                    console.log(err);
+                    return;
+                }else{
+                    document.getElementById('response').innerHTML = 'Value Updated! Please refresh !!';
+                }
+            });
+
+        }
+
+        document.getElementById('setValueSubmit').onclick = function(){
+            const valueToUpdate = document.getElementById('setValue').value;
+            if(valueToUpdate){
+                sendDataToContract(valueToUpdate,'<replace-with-senders-address>');
+            }
+        };
+
+      </script>
+</body>
+</html>
