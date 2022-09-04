@@ -1,5 +1,5 @@
 # Web3 Sample Stack
-In this app we will example Web3 tech stack - Ethereum Blockchain based Web3.js, Solidity Smart Contract, Vanilla JS
+This is a sample application to understand Web3. In this app we explore the Web3 tech stack - Ethereum Blockchain based Web3.js, Solidity Smart Contract, Vanilla JS
 
 ## Codebase Deployment
 The code can be deployed directly to Ethereum blockchain. 
